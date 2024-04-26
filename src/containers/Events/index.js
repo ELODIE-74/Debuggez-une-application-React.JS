@@ -13,17 +13,14 @@ const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = ((!type ? data?.events : data?.events) || []).filter(
-    (event, index) => {
-      if (
-        (currentPage - 1) * PER_PAGE <= index &&
-        PER_PAGE * currentPage > index
-      ) {
-        return true;
+  const filteredEvents = (data?.events || [])
+    .filter((event) => {
+      if (!type) {
+        return true; // Si aucune catégorie n'est sélectionnée, tous les événements sont affichés
       }
-      return false;
-    }
-  );
+      return event.type === type; // Filtre les événements par catégorie sélectionnée
+    })
+    .slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
   const changeType = (evtType) => {
     setCurrentPage(1);
     setType(evtType);
