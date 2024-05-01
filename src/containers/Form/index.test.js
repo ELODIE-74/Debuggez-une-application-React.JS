@@ -18,7 +18,7 @@ describe("When Events is created", () => {
       await screen.findByText("En cours");
       await waitFor(
         () => {
-          return screen.findByText("Envoyer");
+          expect(screen.getByText("Envoyer")).toBeInTheDocument(); // Utilisation de getByText avec expect
         },
         { timeout: 2000 }
       );
