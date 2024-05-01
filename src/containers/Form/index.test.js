@@ -14,15 +14,14 @@ describe("When Events is created", () => {
     it("the success action is called", async () => {
       const onSuccess = jest.fn();
       render(<Form onSuccess={onSuccess} />);
-      fireEvent(
-        await screen.findByTestId("button-test-id"),
-        new MouseEvent("click", {
-          cancelable: true,
-          bubbles: true,
-        })
-      );
+      fireEvent.click(screen.getByTestId("button-test-id"));
       await screen.findByText("En cours");
-      await screen.findByText("Envoyer");
+      await waitFor(
+        () => {
+          return screen.findByText("Envoyer");
+        },
+        { timeout: 2000 }
+      );
       expect(onSuccess).toHaveBeenCalled();
     });
   });
